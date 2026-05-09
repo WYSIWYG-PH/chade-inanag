@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chade Inanag - Lami ug Barato</title>
+    <link rel="icon" type="image/png" href="assets/logo.png" />
+    <link rel="apple-touch-icon" href="assets/logo.png" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Bungee&family=Fredoka:wght@400;500;600;700&family=Caveat:wght@500;700&display=swap"
+        rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        leaf: { DEFAULT: '#3f6b34', dark: '#2b4a23', light: '#6ea35c' },
+                        cream: '#f6ecd2',
+                        paper: '#fbf6e7',
+                        bark: '#6b3a1f',
+                        ember: '#d6471f',
+                        sun: '#f0a830',
+                    },
+                    fontFamily: {
+                        display: ['Bungee', 'sans-serif'],
+                        body: ['Fredoka', 'sans-serif'],
+                        script: ['Caveat', 'cursive'],
+                    },
+                },
+            },
+        };
+    </script>
+    <style>
+        html, body {
+            overflow-x: hidden;
+            max-width: 100%;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: #fbf6e7;
+            background-image:
+                radial-gradient(rgba(107, 58, 31, 0.06) 1px, transparent 1px),
+                radial-gradient(rgba(63, 107, 52, 0.05) 1px, transparent 1px);
+            background-size: 22px 22px, 38px 38px;
+            background-position: 0 0, 11px 19px;
+        }
+
+        /* ---------- Banana leaf edge decorations ---------- */
+        .leaf-edge {
+            position: relative;
+        }
+
+        .leaf-edge::before,
+        .leaf-edge::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            right: 0;
+            height: 38px;
+            background-repeat: repeat-x;
+            background-size: 120px 38px;
+            pointer-events: none;
+            z-index: 5;
+        }
+
+        .leaf-edge::before {
+            top: -1px;
+            background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 38' preserveAspectRatio='none'><g fill='%233f6b34'><path d='M0,0 C18,30 36,30 60,8 C84,30 102,30 120,0 L120,38 L0,38 Z'/></g><g stroke='%232b4a23' stroke-width='1' fill='none' opacity='0.7'><path d='M30,2 L30,22'/><path d='M22,6 L30,12'/><path d='M38,6 L30,12'/><path d='M22,12 L30,18'/><path d='M38,12 L30,18'/><path d='M90,2 L90,22'/><path d='M82,6 L90,12'/><path d='M98,6 L90,12'/><path d='M82,12 L90,18'/><path d='M98,12 L90,18'/></g></svg>");
+            transform: rotate(180deg);
+        }
+
+        .leaf-edge::after {
+            bottom: -1px;
+            background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 38' preserveAspectRatio='none'><g fill='%233f6b34'><path d='M0,0 C18,30 36,30 60,8 C84,30 102,30 120,0 L120,38 L0,38 Z'/></g><g stroke='%232b4a23' stroke-width='1' fill='none' opacity='0.7'><path d='M30,2 L30,22'/><path d='M22,6 L30,12'/><path d='M38,6 L30,12'/><path d='M22,12 L30,18'/><path d='M38,12 L30,18'/><path d='M90,2 L90,22'/><path d='M82,6 L90,12'/><path d='M98,6 L90,12'/><path d='M82,12 L90,18'/><path d='M98,12 L90,18'/></g></svg>");
+        }
+
+        /* Corner banana leaves */
+        .leaf-corner {
+            position: absolute;
+            width: 180px;
+            height: 180px;
+            pointer-events: none;
+            opacity: 0.85;
+            z-index: 4;
+        }
+
+        .leaf-corner.tl {
+            top: -30px;
+            left: -40px;
+            transform: rotate(-15deg);
+        }
+
+        .leaf-corner.tr {
+            top: -30px;
+            right: -40px;
+            transform: rotate(195deg);
+        }
+
+        .leaf-corner.bl {
+            bottom: -30px;
+            left: -40px;
+            transform: rotate(165deg);
+        }
+
+        .leaf-corner.br {
+            bottom: -30px;
+            right: -40px;
+            transform: rotate(15deg);
+        }
+
+        /* Section title underline */
+        .title-underline {
+            background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 14'><path d='M2,7 Q50,1 100,7 T198,7' stroke='%23d6471f' stroke-width='3' fill='none' stroke-linecap='round'/></svg>");
+            background-repeat: no-repeat;
+            background-position: center bottom;
+            background-size: 100% 10px;
+            padding-bottom: 16px;
+        }
+
+        /* Card hover lift */
+        .lift {
+            transition: transform .35s ease, box-shadow .35s ease;
+        }
+
+        .lift:hover {
+            transform: translateY(-6px) rotate(-0.5deg);
+            box-shadow: 0 18px 30px -12px rgba(43, 74, 35, 0.35);
+        }
+
+        /* Hero background image with dark overlay for legibility */
+        .hero-bg {
+            background-image:
+                linear-gradient(rgba(43, 74, 35, 0.65), rgba(20, 35, 15, 0.78)),
+                url('assets/hero-bg.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        .ticker {
+            animation: ticker 28s linear infinite;
+        }
+
+        @keyframes ticker {
+            from {
+                transform: translateX(0);
+            }
+
+            to {
+                transform: translateX(-50%);
+            }
+        }
+
+        /* ---------- Scroll-triggered themed animations ---------- */
+        .reveal { opacity: 0; will-change: transform, opacity; }
+        .reveal.in { opacity: 1; }
+
+        /* Section title — unrolls like a banana leaf and gently sways */
+        .reveal-leaf {
+            transform: scaleX(0.1) rotate(-6deg);
+            transform-origin: left center;
+        }
+        .reveal-leaf.in {
+            animation: leaf-unroll 0.9s cubic-bezier(.2,.8,.2,1) forwards,
+                       leaf-sway 4.5s ease-in-out 0.9s infinite;
+        }
+        @keyframes leaf-unroll {
+            0%   { transform: scaleX(0.1) rotate(-6deg); opacity: 0; }
+            60%  { transform: scaleX(1.05) rotate(2deg); opacity: 1; }
+            100% { transform: scaleX(1) rotate(0deg);   opacity: 1; }
+        }
+        @keyframes leaf-sway {
+            0%,100% { transform: rotate(0deg); }
+            50%     { transform: rotate(-1.2deg); }
+        }
+
+        /* Tagline — simple slide up */
+        .reveal-steam { transform: translateY(20px); }
+        .reveal-steam.in {
+            animation: steam-float 0.7s ease-out forwards;
+        }
+        @keyframes steam-float {
+            0%   { transform: translateY(20px); opacity: 0; }
+            100% { transform: translateY(0);    opacity: 1; }
+        }
+
+        /* Cards — "served onto the table": rise + tilt back like a plate landing */
+        .reveal-serve-l { transform: translate(-60px, 40px) rotate(-8deg); }
+        .reveal-serve-r { transform: translate(60px, 40px)  rotate(8deg); }
+        .reveal-serve-l.in, .reveal-serve-r.in {
+            animation: serve-plate 0.9s cubic-bezier(.2,.9,.25,1.2) forwards;
+        }
+        @keyframes serve-plate {
+            0%   { /* uses inline transform from class */ }
+            70%  { transform: translate(0, -6px) rotate(1.5deg); }
+            100% { transform: translate(0, 0) rotate(0); }
+        }
+
+        /* Food package tiles — sizzle pop with stagger */
+        .reveal-sizzle { transform: scale(0.6) rotate(-6deg); }
+        .reveal-sizzle.in {
+            animation: sizzle-pop 0.7s cubic-bezier(.18,1.2,.4,1) forwards;
+        }
+        @keyframes sizzle-pop {
+            0%   { transform: scale(0.6) rotate(-6deg); opacity: 0; }
+            55%  { transform: scale(1.08) rotate(2deg); opacity: 1; }
+            80%  { transform: scale(0.97) rotate(-1deg); }
+            100% { transform: scale(1) rotate(0); opacity: 1; }
+        }
+
+        /* Snacks list — drip in from the side like sawsawan */
+        .reveal-drip { transform: translateX(-50px) skewY(6deg); }
+        .reveal-drip.in {
+            animation: drip-in 0.7s cubic-bezier(.2,.8,.2,1) forwards;
+        }
+        @keyframes drip-in {
+            0%   { transform: translateX(-50px) skewY(6deg); opacity: 0; }
+            70%  { transform: translateX(6px) skewY(-1.5deg); opacity: 1; }
+            100% { transform: translateX(0) skewY(0); opacity: 1; }
+        }
+
+        /* Cooler image — chills in (slight frosty scale + drop) */
+        .reveal-chill { transform: translateY(-30px) scale(1.08); }
+        .reveal-chill.in {
+            animation: chill-drop 0.9s cubic-bezier(.2,.8,.2,1) forwards;
+        }
+        @keyframes chill-drop {
+            0%   { transform: translateY(-30px) scale(1.05); opacity: 0; }
+            100% { transform: translateY(0) scale(1); opacity: 1; }
+        }
+
+        /* Call-to-order collage — flip-in like flipping a banana leaf wrap */
+        .reveal-flip { transform: perspective(800px) rotateY(80deg) scale(0.85); transform-origin: left center; }
+        .reveal-flip.in {
+            animation: flip-leaf 0.85s cubic-bezier(.25,.85,.3,1.15) forwards;
+        }
+        @keyframes flip-leaf {
+            0%   { transform: perspective(800px) rotateY(80deg) scale(0.85); opacity: 0; }
+            70%  { transform: perspective(800px) rotateY(-8deg) scale(1.02); opacity: 1; }
+            100% { transform: perspective(800px) rotateY(0deg) scale(1); opacity: 1; }
+        }
+
+        /* Simple slide-in from left */
+        .reveal-fade { transform: translateX(-40px); }
+        .reveal-fade.in {
+            animation: simple-slide 0.6s ease-out forwards;
+        }
+        @keyframes simple-slide {
+            0%   { transform: translateX(-40px); opacity: 0; }
+            100% { transform: translateX(0); opacity: 1; }
+        }
+
+        /* Simple slide up */
+        .reveal-up { transform: translateY(30px); }
+        .reveal-up.in {
+            animation: simple-up 0.7s ease-out forwards;
+        }
+        @keyframes simple-up {
+            0%   { transform: translateY(30px); opacity: 0; }
+            100% { transform: translateY(0); opacity: 1; }
+        }
+
+        /* Header sway on hero — gentle bob into place */
+        .reveal-rise { transform: translateY(50px) scale(0.95); }
+        .reveal-rise.in {
+            animation: hero-rise 1.1s cubic-bezier(.2,.9,.25,1.05) forwards;
+        }
+        @keyframes hero-rise {
+            0%   { transform: translateY(50px) scale(0.95); opacity: 0; }
+            100% { transform: translateY(0) scale(1); opacity: 1; }
+        }
+
+    </style>
+</head>
+
+<body class="font-body text-bark">
+
+    <!-- =========== NAV =========== -->
+    <header class="sticky top-0 z-40 bg-paper/90 backdrop-blur border-b-4 border-leaf-dark">
+        <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+            <a href="#top" class="flex items-center gap-3">
+                <img src="assets/logo.png" alt="Chade Inanag" class="h-12 w-auto drop-shadow" />
+                <span class="hidden sm:block font-display text-ember text-xl tracking-wide">CHADE INANAG</span>
+            </a>
+            <nav class="hidden md:flex items-center gap-7 font-medium text-leaf-dark">
+                <a href="#unli-rice" class="hover:text-ember transition">Unli Rice</a>
+                <a href="#packages" class="hover:text-ember transition">Food Packages</a>
+                <a href="#snacks" class="hover:text-ember transition">Coolers & Snacks</a>
+                <a href="#order" class="hover:text-ember transition">Call to Order</a>
+            </nav>
+            <a href="https://www.facebook.com/profile.php?id=100090756825573" target="_blank" rel="noopener"
+                class="bg-ember hover:bg-bark text-cream font-semibold px-4 py-2 rounded-full shadow-md transition">
+                Order Now
+            </a>
+        </div>
+    </header>
+
+    <!-- =========== HERO =========== -->
+    <section id="top" class="leaf-edge hero-bg text-cream relative overflow-hidden">
+        <div class="max-w-6xl mx-auto px-6 py-24 md:py-32 text-center relative z-10">
+            <p class="font-script text-2xl md:text-3xl text-sun mb-2">welcome to</p>
+            <h1 class="font-display text-5xl md:text-7xl tracking-wide drop-shadow-lg">
+                <span class="text-sun">CHADE</span> <span class="text-ember">INANAG</span>
+            </h1>
+            <p class="mt-4 font-script text-3xl md:text-4xl text-cream/95">"lami, barato, sulit kaayu"</p>
+            <p class="mt-6 max-w-2xl mx-auto text-cream/90 text-base md:text-lg leading-relaxed">
+                Hot off the grill. Smoky <em>inanag</em> chicken, unli rice, and homestyle Pinoy
+                packages — served the way Lola made it, wrapped in banana leaf goodness.
+            </p>
+            <div class="mt-9 flex flex-wrap justify-center gap-4">
+                <a href="#unli-rice"
+                    class="bg-sun hover:bg-ember text-bark hover:text-cream font-bold px-7 py-3 rounded-full shadow-lg transition">
+                    See the Menu
+                </a>
+                <a href="https://www.facebook.com/profile.php?id=100090756825573" target="_blank" rel="noopener"
+                    class="bg-cream/10 border-2 border-cream/70 hover:bg-cream hover:text-leaf-dark text-cream font-bold px-7 py-3 rounded-full transition">
+                    Call to Order
+                </a>
+            </div>
+        </div>
+
+        <!-- Decorative corner leaves -->
+        <svg class="leaf-corner tl" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+            <path d="M10,10 Q120,0 190,80 Q140,120 80,140 Q30,160 10,190 Q-5,100 10,10 Z" fill="#6ea35c"
+                stroke="#2b4a23" stroke-width="2" />
+            <path d="M10,10 L185,180" stroke="#2b4a23" stroke-width="2" fill="none" />
+            <g stroke="#2b4a23" stroke-width="1.2" fill="none" opacity="0.8">
+                <path d="M40,30 L80,90" />
+                <path d="M70,25 L100,85" />
+                <path d="M100,20 L130,80" />
+                <path d="M30,60 L70,120" />
+                <path d="M25,90 L70,150" />
+            </g>
+        </svg>
+        <svg class="leaf-corner br" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+            <path d="M10,10 Q120,0 190,80 Q140,120 80,140 Q30,160 10,190 Q-5,100 10,10 Z" fill="#6ea35c"
+                stroke="#2b4a23" stroke-width="2" />
+            <path d="M10,10 L185,180" stroke="#2b4a23" stroke-width="2" fill="none" />
+            <g stroke="#2b4a23" stroke-width="1.2" fill="none" opacity="0.8">
+                <path d="M40,30 L80,90" />
+                <path d="M70,25 L100,85" />
+                <path d="M100,20 L130,80" />
+                <path d="M30,60 L70,120" />
+                <path d="M25,90 L70,150" />
+            </g>
+        </svg>
+    </section>
+
+    <!-- =========== TICKER =========== -->
+    <div class="bg-ember text-cream py-3 overflow-hidden border-y-4 border-leaf-dark">
+        <div class="ticker flex whitespace-nowrap font-display text-lg tracking-wider">
+            <span class="mx-8">🍚 UNLI RICE MEALS</span>
+            <span class="mx-8">🥤 COOLERS & SNACKS</span>
+            <span class="mx-8">📦 FOOD PACKAGES</span>
+            <span class="mx-8">📞 CALL TO ORDER</span>
+            <span class="mx-8">🍚 UNLI RICE MEALS</span>
+            <span class="mx-8">🥤 COOLERS & SNACKS</span>
+            <span class="mx-8">📦 FOOD PACKAGES</span>
+            <span class="mx-8">📞 CALL TO ORDER</span>
+        </div>
+    </div>
+
+    <!-- =========== UNLI RICE =========== -->
+    <section id="unli-rice" class="leaf-edge bg-paper relative">
+        <div class="max-w-6xl mx-auto px-6 py-24 relative z-10">
+            <div class="text-center mb-12">
+                <p class="font-script text-3xl text-leaf">all-you-can-eat</p>
+                <h2 class="font-display text-4xl md:text-5xl text-ember title-underline inline-block">UNLI RICE MEALS
+                </h2>
+                <p class="mt-5 max-w-2xl mx-auto text-bark/80">
+                    Bottomless rice. Smoky grilled chicken. Sawsawan that hits different.
+                    Bring your appetite — we'll keep refilling.
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="lift bg-cream rounded-3xl overflow-hidden shadow-lg border-4 border-leaf-dark/20">
+                    <img src="assets/unli-rice-meals/670515348_937894105912475_3468270602055327681_n.jpg"
+                        alt="Unli rice meal" class="w-full h-72 object-cover" />
+                    <div class="p-6">
+                        <h3 class="font-display text-2xl text-leaf-dark">Paa</h3>
+                        <p class="text-bark/70 mt-2">A quarter of grilled <em>inanag</em> chicken with <span
+                                class="font-display text-md text-leaf-dark">UNLI RICE</span></p>
+                        <div class="mt-4 flex items-center justify-between">
+                            <span class="font-display text-2xl text-ember">₱99</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="lift bg-cream rounded-3xl overflow-hidden shadow-lg border-4 border-leaf-dark/20">
+                    <img src="assets/unli-rice-meals/678418480_942659422102610_4051045383773645262_n.jpg"
+                        alt="Lechon meals" class="w-full h-72 object-cover" />
+                    <div class="p-6">
+                        <h3 class="font-display text-2xl text-leaf-dark">Lechon Meals</h3>
+                        <p class="text-bark/70 mt-2">Crispy lechon goodness, served with <span
+                                class="font-display text-md text-leaf-dark">UNLI RICE</span>.</p>
+                        <ul class="mt-4 space-y-2">
+                            <li class="flex items-center justify-between border-b border-leaf-dark/15 pb-2">
+                                <span class="font-medium">Lechon Sisig <span class="text-xs text-bark/60">· unli
+                                        rice</span></span>
+                                <span class="font-display text-xl text-ember">₱99</span>
+                            </li>
+                            <li class="flex items-center justify-between">
+                                <span class="font-medium">Lechon Toppings <span class="text-xs text-bark/60">· unli
+                                        rice</span></span>
+                                <span class="font-display text-xl text-ember">₱99</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- =========== FOOD PACKAGES =========== -->
+    <section id="packages" class="leaf-edge bg-leaf-dark text-cream relative">
+        <div class="max-w-6xl mx-auto px-6 py-24 relative z-10">
+            <div class="text-center mb-12">
+                <p class="font-script text-3xl text-sun">good for the events</p>
+                <h2 class="font-display text-4xl md:text-5xl text-cream title-underline inline-block">FOOD PACKAGES</h2>
+                <p class="mt-5 max-w-2xl mx-auto text-cream/85">
+                    From small handaan to big celebrations, We've got a package that'll fit your crowd and your budget.
+                </p>
+            </div>
+
+            <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="lift rounded-3xl overflow-hidden shadow-xl">
+                    <img src="assets/food-package/679851197_947996514902234_5485415630642714021_n.jpg"
+                        class="w-full h-72 object-cover" alt="Food package" />
+                </div>
+                <div class="lift rounded-3xl overflow-hidden shadow-xl">
+                    <img src="assets/food-package/680243766_947996251568927_3821198398482238475_n.jpg"
+                        class="w-full h-72 object-cover" alt="Food package" />
+                </div>
+                <div class="lift rounded-3xl overflow-hidden shadow-xl">
+                    <img src="assets/food-package/681009264_947996418235577_5852420073563836198_n.jpg"
+                        class="w-full h-72 object-cover" alt="Food package" />
+                </div>
+                <div class="lift rounded-3xl overflow-hidden shadow-xl">
+                    <img src="assets/food-package/681374665_947996471568905_4679240222319031079_n.jpg"
+                        class="w-full h-72 object-cover" alt="Food package" />
+                </div>
+                <div class="lift rounded-3xl overflow-hidden shadow-xl">
+                    <img src="assets/food-package/683249494_947996378235581_1130979943031172812_n.jpg"
+                        class="w-full h-72 object-cover" alt="Food package" />
+                </div>
+                <div class="lift rounded-3xl overflow-hidden shadow-xl">
+                    <img src="assets/food-package/new.jpg"
+                        class="w-full h-72 object-cover" alt="Food package" />
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- =========== COOLERS & SNACKS =========== -->
+    <section id="snacks" class="leaf-edge bg-paper relative">
+        <div class="max-w-6xl mx-auto px-6 py-24 relative z-10">
+            <div class="text-center mb-12">
+                <p class="font-script text-3xl text-leaf">para sa init sa adlaw</p>
+                <h2 class="font-display text-4xl md:text-5xl text-ember title-underline inline-block">COOLERS & SNACKS
+                </h2>
+                <p class="mt-5 max-w-2xl mx-auto text-bark/80">
+                    Coolers to beat the tag-init
+                </p>
+            </div>
+
+            <div class="grid lg:grid-cols-2 gap-10 items-center">
+                <div class="lift rounded-3xl overflow-hidden shadow-xl border-4 border-leaf-dark/20">
+                    <img src="assets/coolers-and-snacks/677172687_943501305351755_3225433432486058117_n.jpg"
+                        class="w-full h-96 object-cover" alt="Coolers and snacks" />
+                </div>
+                <ul class="space-y-4">
+                    <li
+                        class="bg-cream rounded-2xl p-5 shadow flex justify-between items-center border-l-8 border-leaf">
+                        <div>
+                            <h4 class="font-display text-xl text-leaf-dark">HALO-HALO</h4>
+                        </div>
+                        <span class="font-display text-xl text-ember">₱35</span>
+                    </li>
+                    <li
+                        class="bg-cream rounded-2xl p-5 shadow flex justify-between items-center border-l-8 border-leaf">
+                        <div>
+                            <h4 class="font-display text-xl text-leaf-dark">MAIS CON YELO</h4>
+                        </div>
+                        <span class="font-display text-xl text-ember">₱35</span>
+                    </li>
+                    <li
+                        class="bg-cream rounded-2xl p-5 shadow flex justify-between items-center border-l-8 border-leaf">
+                        <div>
+                            <h4 class="font-display text-xl text-leaf-dark">MANGO GRAHAM</h4>
+                        </div>
+                        <span class="font-display text-xl text-ember">₱59</span>
+                    </li>
+                    <li
+                        class="bg-cream rounded-2xl p-5 shadow flex justify-between items-center border-l-8 border-leaf">
+                        <div>
+                            <h4 class="font-display text-xl text-leaf-dark">FRIES</h4>
+                        </div>
+                        <span class="font-display text-xl text-ember">₱45</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- =========== CALL TO ORDER =========== -->
+    <section id="order" class="leaf-edge bg-leaf text-cream relative">
+        <div class="max-w-6xl mx-auto px-6 py-24 relative z-10">
+            <div class="text-center mb-12">
+                <p class="font-script text-3xl text-sun">tawag na, palami na!</p>
+                <h2 class="font-display text-4xl md:text-5xl text-cream title-underline inline-block">CALL TO ORDER</h2>
+                <p class="mt-5 max-w-2xl mx-auto text-cream/85">
+                    Pre-order your meals, packages, and platters. Pickup or delivery within the area.
+                </p>
+            </div>
+
+            <div class="grid lg:grid-cols-2 gap-10 items-center">
+                <div class="grid grid-cols-2 gap-3">
+                    <img src="assets/call-to-order/680696174_948658801502672_6882672582841620054_n.jpg"
+                        class="rounded-2xl object-cover h-48 sm:h-56 w-full" alt="Bulk orders" />
+                    <img src="assets/call-to-order/682430525_948658911502661_1293330278281632423_n.jpg"
+                        class="rounded-2xl object-cover h-48 sm:h-56 w-full" alt="Order packed" />
+                    <img src="assets/call-to-order/684874333_948658848169334_4673639561641686138_n.jpg"
+                        class="rounded-2xl object-cover h-48 sm:h-56 w-full" alt="Catering ready" />
+                    <img src="assets/food-package/681374665_947996471568905_4679240222319031079_n.jpg"
+                        class="rounded-2xl object-cover h-48 sm:h-56 w-full" alt="Catering ready" />
+                </div>
+
+                <div class="bg-paper text-bark rounded-3xl p-8 shadow-2xl border-4 border-leaf-dark/30">
+                    <h3 class="font-display text-2xl text-ember">Place Your Order</h3>
+                    <p class="text-sm text-bark/70 mt-1">Mag-order via call, text, or messenger. Reply within 15 mins on
+                        business hours.</p>
+
+                    <div class="mt-6 space-y-4">
+                        <a href="tel:+639171234567"
+                            class="flex items-center gap-4 bg-ember hover:bg-bark text-cream rounded-2xl px-5 py-4 transition">
+                            <span class="text-2xl">📧</span>
+                            <div>
+                                <p class="font-bold">EMAIL US</p>
+                                <p class="text-sm opacity-90">chade515_zzaphire@yahoo.com</p>
+                            </div>
+                        </a>
+                        <a href="https://www.facebook.com/profile.php?id=100090756825573" target="_blank" rel="noopener"
+                            class="flex items-center gap-4 bg-leaf-dark hover:bg-bark text-cream rounded-2xl px-5 py-4 transition">
+                            <span class="text-2xl">💬</span>
+                            <div>
+                                <p class="font-bold">Facebook Page</p>
+                                <p class="text-sm opacity-90">Message us on Facebook</p>
+                            </div>
+                        </a>
+                        <div
+                            class="flex items-center gap-4 bg-cream border-2 border-leaf-dark/20 rounded-2xl px-5 py-4">
+                            <span class="text-2xl">📍</span>
+                            <div>
+                                <p class="font-bold text-leaf-dark">Visit Us</p>
+                                <p class="text-sm text-bark/80">Open daily, 10:00 AM – 9:00 PM</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- =========== FOOTER =========== -->
+    <footer class="bg-bark text-cream">
+        <div class="max-w-6xl mx-auto px-6 py-12 grid md:grid-cols-3 gap-8">
+            <div>
+                <img src="assets/logo.png" alt="Chade Inanag" class="h-16 mb-3" />
+                <p class="text-sm text-cream/80">Lami, barato, sulit kaayu. Inanag chicken at homestyle Pinoy meals
+                    served fresh daily.</p>
+            </div>
+            <div>
+                <h4 class="font-display text-sun mb-3">Menu</h4>
+                <ul class="space-y-1 text-sm">
+                    <li><a href="#unli-rice" class="hover:text-sun">Unli Rice Meals</a></li>
+                    <li><a href="#packages" class="hover:text-sun">Food Packages</a></li>
+                    <li><a href="#snacks" class="hover:text-sun">Coolers & Snacks</a></li>
+                    <li><a href="#order" class="hover:text-sun">Call to Order</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="font-display text-sun mb-3">Hours</h4>
+                <p class="text-sm">Mon – Sun · 10:00 AM – 9:00 PM</p>
+                <h4 class="font-display text-sun mb-3 mt-5">Contact</h4>
+                <p class="text-sm">chade515_zzaphire@yahoo.com</p>
+            </div>
+        </div>
+        <div class="border-t border-cream/15 py-4 text-center text-xs text-cream/60">
+            © <span id="yr"></span> Chade Inanag. All rights reserved.
+        </div>
+    </footer>
+
+    <script>document.getElementById('yr').textContent = new Date().getFullYear();</script>
+
+    <script>
+        // Auto-tag elements for themed scroll animations
+        (function () {
+            const tag = (el, cls, delay) => {
+                if (!el) return;
+                el.classList.add('reveal', cls);
+                if (delay) el.style.animationDelay = delay + 'ms';
+            };
+
+            // Hero — no animation (static)
+
+            // Every section title block: tagline = steam, heading = unrolling leaf
+            document.querySelectorAll('section .text-center.mb-12').forEach(block => {
+                const tagline = block.querySelector('.font-script');
+                const heading = block.querySelector('h2, h1');
+                const sub     = block.querySelector('p:not(.font-script)');
+                tag(tagline, 'reveal-steam');
+                tag(heading, 'reveal-leaf', 150);
+                tag(sub,     'reveal-steam', 350);
+            });
+
+            // Unli rice — two cards serve in from opposite sides
+            const unliCards = document.querySelectorAll('#unli-rice .grid > .lift');
+            if (unliCards[0]) tag(unliCards[0], 'reveal-serve-l');
+            if (unliCards[1]) tag(unliCards[1], 'reveal-serve-r', 180);
+
+            // Food packages — staggered sizzle pop
+            document.querySelectorAll('#packages .grid > .lift').forEach((el, i) => {
+                tag(el, 'reveal-sizzle', i * 110);
+            });
+
+            // Coolers & snacks — image chills in, list items drip in
+            tag(document.querySelector('#snacks .lift'), 'reveal-chill');
+            document.querySelectorAll('#snacks ul > li').forEach((el, i) => {
+                tag(el, 'reveal-drip', 120 + i * 130);
+            });
+
+            // Call to order — collage tiles simple fade up, contact card chills in
+            document.querySelectorAll('#order .grid-cols-2 > img').forEach((el, i) => {
+                tag(el, 'reveal-fade', i * 100);
+            });
+            tag(document.querySelector('#order .bg-paper'), 'reveal-chill', 200);
+
+            // Trigger on viewport entry
+            const io = new IntersectionObserver(entries => {
+                entries.forEach(e => {
+                    if (e.isIntersecting) {
+                        e.target.classList.add('in');
+                        io.unobserve(e.target);
+                    }
+                });
+            }, { threshold: 0.15, rootMargin: '0px 0px -8% 0px' });
+
+            document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+        })();
+    </script>
+</body>
+
+</html>
