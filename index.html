@@ -143,6 +143,55 @@
             background-repeat: no-repeat;
         }
 
+        /* ---------- Banana-leaf logo-style wrap (woven green oval + cream interior) ---------- */
+        .banana-wrap {
+            position: relative;
+            display: inline-block;
+            padding: 70px 110px 80px;
+            isolation: isolate;
+            max-width: 100%;
+        }
+
+        .banana-wrap-bg {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            filter: drop-shadow(0 14px 28px rgba(0, 0, 0, 0.45));
+        }
+
+        /* Tiny leaf sprigs perched on top of the wrap (like the logo's leaves) */
+        .banana-wrap-sprig {
+            position: absolute;
+            top: -18px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90px;
+            height: 60px;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* Subtle dark outline behind the title text for readability on cream
+           — does NOT change the text fill color */
+        .banana-wrap .wrap-text {
+            text-shadow:
+                0 2px 0 rgba(43, 74, 35, 0.18),
+                0 0 14px rgba(43, 74, 35, 0.12);
+        }
+
+        @media (max-width: 640px) {
+            .banana-wrap {
+                padding: 55px 40px 65px;
+            }
+            .banana-wrap-sprig {
+                width: 70px;
+                height: 46px;
+                top: -14px;
+            }
+        }
+
         .ticker {
             animation: ticker 28s linear infinite;
         }
@@ -304,14 +353,71 @@
     <!-- =========== HERO =========== -->
     <section id="top" class="leaf-edge hero-bg text-cream relative overflow-hidden">
         <div class="max-w-6xl mx-auto px-6 py-24 md:py-32 text-center relative z-10">
-            <p class="font-script text-2xl md:text-3xl text-sun mb-2">welcome to</p>
-            <h1 class="font-display text-5xl md:text-7xl tracking-wide drop-shadow-lg">
-                <span class="text-sun">CHADE</span> <span class="text-ember">INANAG</span>
-            </h1>
+            <div class="banana-wrap">
+                <!-- Woven banana-leaf oval frame with rough cream interior -->
+                <svg class="banana-wrap-bg" viewBox="0 0 1000 500" preserveAspectRatio="none" aria-hidden="true">
+                    <defs>
+                        <!-- Vertical banana-leaf weave pattern -->
+                        <pattern id="leafWeave" patternUnits="userSpaceOnUse" width="34" height="50">
+                            <rect width="34" height="50" fill="#3f6b34" />
+                            <rect x="0"  y="0" width="9"  height="50" fill="#5a8a4a" />
+                            <rect x="9"  y="0" width="8"  height="50" fill="#3f6b34" />
+                            <rect x="17" y="0" width="9"  height="50" fill="#6ea35c" />
+                            <rect x="26" y="0" width="8"  height="50" fill="#3f6b34" />
+                            <!-- horizontal weave bands -->
+                            <rect x="0" y="0"  width="34" height="3" fill="#1f3818" opacity="0.55" />
+                            <rect x="0" y="23" width="34" height="3" fill="#1f3818" opacity="0.4" />
+                            <rect x="0" y="46" width="34" height="3" fill="#1f3818" opacity="0.55" />
+                            <!-- leaf veins -->
+                            <line x1="4.5"  y1="0" x2="4.5"  y2="50" stroke="#2b4a23" stroke-width="0.6" />
+                            <line x1="13"   y1="0" x2="13"   y2="50" stroke="#2b4a23" stroke-width="0.6" />
+                            <line x1="21.5" y1="0" x2="21.5" y2="50" stroke="#2b4a23" stroke-width="0.6" />
+                            <line x1="30"   y1="0" x2="30"   y2="50" stroke="#2b4a23" stroke-width="0.6" />
+                        </pattern>
+                        <!-- Rough-paper edge filter for the cream interior -->
+                        <filter id="roughEdge" x="-8%" y="-12%" width="116%" height="124%">
+                            <feTurbulence type="fractalNoise" baseFrequency="0.022" numOctaves="3" seed="4" result="t" />
+                            <feDisplacementMap in="SourceGraphic" in2="t" scale="22" />
+                        </filter>
+                        <radialGradient id="creamShade" cx="50%" cy="45%" r="60%">
+                            <stop offset="0%"  stop-color="#fbf6e7" />
+                            <stop offset="70%" stop-color="#f6ecd2" />
+                            <stop offset="100%" stop-color="#e9dcb6" />
+                        </radialGradient>
+                    </defs>
+
+                    <!-- Outer woven banana-leaf ring -->
+                    <ellipse cx="500" cy="250" rx="492" ry="244" fill="url(#leafWeave)" stroke="#1f3818" stroke-width="4" />
+                    <ellipse cx="500" cy="250" rx="492" ry="244" fill="none" stroke="#6ea35c" stroke-width="1.2" opacity="0.55" />
+
+                    <!-- Rough-edged cream "paper" interior -->
+                    <g filter="url(#roughEdge)">
+                        <ellipse cx="500" cy="250" rx="405" ry="185" fill="url(#creamShade)" stroke="#6ea35c" stroke-width="3" />
+                        <ellipse cx="500" cy="250" rx="398" ry="178" fill="none" stroke="#3f6b34" stroke-width="0.8" opacity="0.6" />
+                    </g>
+                </svg>
+
+                <!-- Little leaf sprigs perched on top, like the logo -->
+                <svg class="banana-wrap-sprig" viewBox="0 0 90 60" aria-hidden="true">
+                    <g fill="#6ea35c" stroke="#2b4a23" stroke-width="1.2" stroke-linejoin="round">
+                        <path d="M45,55 C28,44 22,28 30,10 C40,22 46,32 46,55 Z" />
+                        <path d="M45,55 C62,44 68,28 60,10 C50,22 44,32 44,55 Z" />
+                    </g>
+                    <g stroke="#2b4a23" stroke-width="1" fill="none" opacity="0.85">
+                        <path d="M45,55 L33,18" />
+                        <path d="M45,55 L57,18" />
+                    </g>
+                </svg>
+
+                <p class="wrap-text font-script text-2xl md:text-3xl text-sun mb-2 relative">welcome to</p>
+                <h1 class="wrap-text font-display text-5xl md:text-7xl tracking-wide relative">
+                    <span class="text-sun">CHADE</span> <span class="text-ember">INANAG</span>
+                </h1>
+            </div>
             <p class="mt-4 font-script text-3xl md:text-4xl text-cream/95">"lami, barato, sulit kaayu"</p>
             <p class="mt-6 max-w-2xl mx-auto text-cream/90 text-base md:text-lg leading-relaxed">
                 Hot off the grill. Smoky <em>inanag</em> chicken, unli rice, and homestyle Pinoy
-                packages — served the way Lola made it, wrapped in banana leaf goodness.
+                packages — served fresh and full of flavor.
             </p>
             <div class="mt-9 flex flex-wrap justify-center gap-4">
                 <a href="#unli-rice"
